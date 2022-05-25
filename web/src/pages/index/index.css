@@ -1,0 +1,7 @@
+.btn {
+  @apply py-2 text-center text-white rounded-sm;
+}
+
+.btn:active {
+  @apply opacity-70;
+}
