@@ -25,7 +25,7 @@ contract RedPacketToken is
         __ERC20Burnable_init();
         __Ownable_init();
         __UUPSUpgradeable_init();
-        mint(msg.sender, 1000000000);
+        mint(msg.sender, 1000000000 * (10**decimals())); // 1 billion
     }
 
     function mint(address to, uint256 amount) public onlyOwner {

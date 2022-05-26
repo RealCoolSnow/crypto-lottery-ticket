@@ -6,7 +6,10 @@ describe("Token Test", function () {
   let RedPacketTokenV2: any;
   let v1: any;
   let v2: any;
-  let accounts: any;
+  const transferAmount = "2.0";
+  const amountEther = (amount: string) => {
+    return ethers.utils.parseEther(amount);
+  };
 
   before(async () => {
     RedPacketToken = await ethers.getContractFactory("RedPacketToken");
@@ -14,23 +17,27 @@ describe("Token Test", function () {
   });
 
   it("version() v1", async function () {
-    accounts = await ethers.getSigners();
+    const [owner] = await ethers.getSigners();
     v1 = await upgrades.deployProxy(RedPacketToken, { kind: "uups" });
     expect(await v1.version()).to.equal("v1");
-    console.log("name:" + (await v1.name()));
-    console.log("symbol:" + (await v1.symbol()));
-    console.log("totalSupply:" + (await v1.totalSupply()));
+    console.log("-------------info----------------");
+    console.log("name:", await v1.name());
+    console.log("symbol:", await v1.symbol());
+    console.log(
+      "totalSupply:",
+      ethers.utils.formatEther((await v1.totalSupply()) + "")
+    );
+    console.log("owner.address:", owner.address);
+    console.log("---------------------------------");
   });
 
   it("transfer() with v1", async function () {
-    const amountEther = (amount: string) => {
-      return ethers.utils.parseEther(amount);
-    };
-    const transferAmount = 10000;
-    await v1.transfer(accounts[1].address, amountEther(transferAmount + ""));
-    const balanceOf = await v1.balanceOf(accounts[0].address);
+    const [owner, addr1] = await ethers.getSigners();
+    let balanceOf = await v1.balanceOf(owner.address);
+    await v1.transfer(addr1.address, amountEther(transferAmount));
+    balanceOf = await v1.balanceOf(addr1.address);
     expect(ethers.utils.formatEther(balanceOf.toString())).to.equal(
-      1000000000 - transferAmount + ""
+      transferAmount
     );
   });
 
@@ -40,7 +47,10 @@ describe("Token Test", function () {
   });
 
   it("balanceOf() with v2", async function () {
-    const balanceOf = await v2.balanceOf(accounts[1].address);
-    expect(ethers.utils.formatEther(balanceOf.toString())).to.equal("1.0");
+    const [, addr1] = await ethers.getSigners();
+    const balanceOf = await v2.balanceOf(addr1.address);
+    expect(ethers.utils.formatEther(balanceOf.toString())).to.equal(
+      transferAmount
+    );
   });
 });
