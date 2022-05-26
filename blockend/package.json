@@ -1,9 +1,15 @@
 {
   "name": "crypto-red-packet",
+  "version": "0.0.1",
+  "private": true,
+  "description": "",
+  "license": "MIT",
+  "author": "CoolSnow(coolsnow2020@gmail.com)",
   "scripts": {
     "accounts": "npx hardhat accounts",
     "build": "npx hardhat compile",
-    "deploy-local": "npx hardhat run scripts/deploy.ts --network localhost",
+    "deploy": "npx hardhat run scripts/deploy.ts --network localhost",
+    "deploy-token": "npx hardhat run scripts/deploy-token.ts --network localhost",
     "node": "npx hardhat node",
     "test": "npx hardhat test"
   },
@@ -13,6 +19,7 @@
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.6.0",
     "@openzeppelin/contracts-upgradeable": "^4.6.0",
+    "@openzeppelin/hardhat-upgrades": "^1.17.0",
     "@typechain/ethers-v5": "^7.2.0",
     "@typechain/hardhat": "^2.3.1",
     "@types/chai": "^4.3.1",
