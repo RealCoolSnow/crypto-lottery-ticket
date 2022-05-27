@@ -5,4 +5,12 @@ const showAlert = (message: string | object) => {
 
 const toString = (data: any) => JSON.stringify(data)
 
-export { showAlert, toString }
+const on = (obj: any, ...args: any) => {
+  obj.addEventListener(...args)
+}
+
+const off = (obj: any, ...args: any) => {
+  obj.removeEventListener(...args)
+}
+
+export { showAlert, toString, on, off }
