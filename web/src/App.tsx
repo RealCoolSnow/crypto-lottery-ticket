@@ -2,13 +2,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import routes from '@/router'
 import '@/locale'
 import './App.css'
-import MainHeader from '@/components/MainHeader'
+import { Header, Footer } from '@/components/Layout'
 
 const App = () => {
   return (
     <div className="App">
       <header>
-        <MainHeader />
+        <Header />
       </header>
       <main>
         <BrowserRouter>
@@ -23,8 +23,8 @@ const App = () => {
           </Routes>
         </BrowserRouter>
       </main>
-      <footer className="text-center">
-        <span className="text-gray-500 text-sm">Copyright (c) CRP Team</span>
+      <footer>
+        <Footer />
       </footer>
     </div>
   )
