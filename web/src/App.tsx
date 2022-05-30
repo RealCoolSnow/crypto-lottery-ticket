@@ -7,22 +7,24 @@ import { Header, Footer } from '@/components/Layout'
 const App = () => {
   return (
     <div className="App">
-      <header>
-        <Header />
-      </header>
-      <main>
-        <BrowserRouter>
-          <Routes>
-            {routes.map((route) => (
-              <Route
-                key={route.path}
-                path={route.path}
-                element={<route.component />}
-              />
-            ))}
-          </Routes>
-        </BrowserRouter>
-      </main>
+      <div className="wrapper">
+        <header>
+          <Header />
+        </header>
+        <main>
+          <BrowserRouter>
+            <Routes>
+              {routes.map((route) => (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  element={<route.component />}
+                />
+              ))}
+            </Routes>
+          </BrowserRouter>
+        </main>
+      </div>
       <footer>
         <Footer />
       </footer>

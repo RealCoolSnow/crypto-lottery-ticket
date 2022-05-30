@@ -1,8 +1,11 @@
 import i18n from '@/locale'
 import { Dispatch, RootState } from '@/store'
 import LanguageIcon from '@mui/icons-material/Language'
+import InfoIcon from '@mui/icons-material/Info'
 import MenuIcon from '@mui/icons-material/Menu'
 import SendIcon from '@mui/icons-material/Send'
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
+import HomeIcon from '@mui/icons-material/Home'
 import {
   MenuItem,
   Button,
@@ -22,6 +25,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import Logo from './Logo'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 
 const LanguageSwitch = () => {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -83,6 +87,24 @@ const Header = () => {
     }
     setDrawerOpen(open)
   }
+  const menuList = [
+    {
+      title: 'Home',
+      link: '/',
+    },
+    {
+      title: 'Send',
+      link: '/send',
+    },
+    {
+      title: 'Contact',
+      link: '/',
+    },
+    {
+      title: 'About',
+      link: '/about',
+    },
+  ]
   const drawerList = () => (
     <Box
       sx={{ width: 250 }}
@@ -91,15 +113,20 @@ const Header = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['Home', 'Send', 'Contact', 'About'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index == 1 ? <SendIcon /> : <span></span>}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+        {menuList.map((item, index) => (
+          <a href={item.link} key={item.title}>
+            <ListItem>
+              <ListItemButton>
+                <ListItemIcon>
+                  {index == 0 ? <HomeIcon /> : <span></span>}
+                  {index == 1 ? <SendIcon /> : <span></span>}
+                  {index == 2 ? <AlternateEmailIcon /> : <span></span>}
+                  {index == 3 ? <InfoIcon /> : <span></span>}
+                </ListItemIcon>
+                <ListItemText primary={item.title} />
+              </ListItemButton>
+            </ListItem>
+          </a>
         ))}
       </List>
       <Divider />
@@ -127,7 +154,7 @@ const Header = () => {
 
 const Footer = () => {
   return (
-    <div className="w-full flex items-center justify-center p-4 relative">
+    <div className="w-full flex items-center justify-center px-4 relative">
       <span className="text-gray-500 text-sm">Copyright (c) CRP Team</span>
       <div className="absolute right-4">
         <LanguageSwitch />

@@ -5,5 +5,14 @@
   @apply fixed top-0 left-0 w-full shadow shadow-gray-300/40;
 }
 .App main {
-  @apply mt-12;
+  @apply mt-20;
+}
+
+.App .wrapper {
+  /* @apply pb-8; */
+  min-height: calc(100vh - 5rem);
+}
+
+.App footer {
+  @apply -mt-8;
 }
