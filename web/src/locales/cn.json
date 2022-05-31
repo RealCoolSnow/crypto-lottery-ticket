@@ -1,6 +1,8 @@
 {
-    "app_name": "红包",
-    "home": "首页",
-    "about": "关于",
-    "about_msg": "这是关于页面"
+  "app_name": "红包",
+  "home": "首页",
+  "about": "关于",
+  "about_msg": "这是关于页面",
+  "connect": "连接",
+  "wallet": "钱包"
 }

@@ -1,6 +1,8 @@
 {
-    "app_name": "Red Packet",
-    "home": "Home",
-    "about": "About",
-    "about_msg": "this is about page"
+  "app_name": "Red Packet",
+  "home": "Home",
+  "about": "About",
+  "about_msg": "this is about page",
+  "connect": "Connect",
+  "wallet": "Wallet"
 }

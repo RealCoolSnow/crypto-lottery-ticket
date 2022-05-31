@@ -1,6 +1,5 @@
 import i18n from '@/locale'
 import { Dispatch, RootState } from '@/store'
-import LanguageIcon from '@mui/icons-material/Language'
 import InfoIcon from '@mui/icons-material/Info'
 import MenuIcon from '@mui/icons-material/Menu'
 import SendIcon from '@mui/icons-material/Send'
@@ -8,7 +7,6 @@ import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
 import HomeIcon from '@mui/icons-material/Home'
 import {
   MenuItem,
-  Button,
   Menu,
   Drawer,
   Box,
@@ -25,7 +23,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import Logo from './Logo'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
+import ConnectWallet from './ConnectWallet'
 
 const LanguageSwitch = () => {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -148,6 +146,7 @@ const Header = () => {
         <Logo />
         <span className="ml-2 hidden md:block">{t('app_name')}</span>
       </div>
+      <ConnectWallet />
     </div>
   )
 }

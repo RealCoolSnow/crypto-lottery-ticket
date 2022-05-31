@@ -1,7 +1,9 @@
 import { defineConfig } from 'vite'
 import { join } from 'path'
 import react from '@vitejs/plugin-react'
+import nodePolyfills from 'rollup-plugin-polyfill-node'
 
+const production = process.env.NODE_ENV === 'production'
 const resolve = (dir: string) => join(__dirname, dir)
 
 // https://vitejs.dev/config/
@@ -20,6 +22,12 @@ export default defineConfig({
         drop_debugger: true,
       },
     },
+    rollupOptions: {
+      plugins: [nodePolyfills()],
+    },
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
     /* 如需分包时开启 */
     /*
     rollupOptions: {
@@ -36,5 +44,14 @@ export default defineConfig({
       },
     }, */
   },
-  plugins: [react()]
+  plugins: [
+    react(),
+    !production &&
+      nodePolyfills({
+        include: [
+          'node_modules/**/*.js',
+          new RegExp('node_modules/.vite/.*js'),
+        ],
+      }),
+  ],
 })
