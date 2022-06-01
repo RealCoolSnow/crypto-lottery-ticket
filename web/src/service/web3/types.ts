@@ -25,7 +25,7 @@ export enum Web3Error {
   WalletNotConnected = 'Wallet not connected',
 }
 
-export enum Web3Event {
+export enum Web3EventType {
   Provider_Connect = 'connect',
   Provider_Disconnect = 'disconnect',
   Provider_AccountsChanged = 'accountsChanged',
@@ -33,4 +33,17 @@ export enum Web3Event {
   Provider_Message = 'message',
   //----custom event
   Connecting = 'connecting',
+}
+
+export interface Web3Event {
+  type: Web3EventType
+  data?: any
+}
+
+export type Web3Callback = (e: Web3Event) => void
+
+export enum ConnectState {
+  Connecting,
+  Connected,
+  Disconnected,
 }
