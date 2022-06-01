@@ -1,10 +1,23 @@
-import MyWeb3 from '@/service/MyWeb3'
+import { EasyWeb3, Registry, Web3Callback, Web3Event } from '@/service/web3'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const ConnectWallet = () => {
   const { t } = useTranslation()
+  const myWeb3 = EasyWeb3.getInstance()
+  let registry: Registry
+  const web3Callback: Web3Callback = (event: Web3Event) => {
+    console.log('web3Callback', event)
+  }
+  useEffect(() => {
+    registry = myWeb3.registerEvent(web3Callback)
+    myWeb3.connectWalletIfCached()
+    return () => {
+      myWeb3.unregisterEvent(registry)
+    }
+  }, [])
   const onConnect = () => {
-    MyWeb3.getInstance().connectWallet()
+    myWeb3.connectWallet()
   }
   return (
     <>

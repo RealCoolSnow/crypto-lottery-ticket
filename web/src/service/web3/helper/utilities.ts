@@ -3,6 +3,7 @@ import { IChainData } from "./types";
 import supportedChains from "./chains";
 import { apiGetGasPrices, apiGetAccountNonce } from "./api";
 import { convertAmountToRawNumber, convertStringToHex } from "./bignumber";
+import { INFURA_ID } from "../constants/config";
 
 export function capitalize(string: string): string {
   return string
@@ -114,7 +115,7 @@ export function getChainData(chainId: number): IChainData {
     throw new Error("ChainId missing or not supported");
   }
 
-  const API_KEY = process.env.REACT_APP_INFURA_ID;
+  const API_KEY = INFURA_ID;
 
   if (
     chainData.rpc_url.includes("infura.io") &&

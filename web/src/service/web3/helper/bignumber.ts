@@ -47,7 +47,7 @@ export function convertStringToHex(value: string | number): string {
 
 export function greaterThan(
   numberOne: number | string,
-  numberTwo: number | string
+  numberTwo: number | string,
 ): boolean {
   return (
     new BigNumber(`${numberOne}`).comparedTo(new BigNumber(`${numberTwo}`)) ===
@@ -57,7 +57,7 @@ export function greaterThan(
 
 export function greaterThanOrEqual(
   numberOne: number,
-  numberTwo: number
+  numberTwo: number,
 ): boolean {
   return (
     new BigNumber(`${numberOne}`).comparedTo(new BigNumber(`${numberTwo}`)) >= 0
@@ -66,7 +66,7 @@ export function greaterThanOrEqual(
 
 export function smallerThan(
   numberOne: number | string,
-  numberTwo: number | string
+  numberTwo: number | string,
 ): boolean {
   return (
     new BigNumber(`${numberOne}`).comparedTo(new BigNumber(`${numberTwo}`)) ===
@@ -76,7 +76,7 @@ export function smallerThan(
 
 export function smallerThanOrEqual(
   numberOne: number,
-  numberTwo: number
+  numberTwo: number,
 ): boolean {
   return (
     new BigNumber(`${numberOne}`).comparedTo(new BigNumber(`${numberTwo}`)) <= 0
@@ -85,7 +85,7 @@ export function smallerThanOrEqual(
 
 export function multiply(
   numberOne: number | string,
-  numberTwo: number | string
+  numberTwo: number | string,
 ): string {
   return new BigNumber(`${numberOne}`)
     .times(new BigNumber(`${numberTwo}`))
@@ -94,7 +94,7 @@ export function multiply(
 
 export function divide(
   numberOne: number | string,
-  numberTwo: number | string
+  numberTwo: number | string,
 ): string {
   return new BigNumber(`${numberOne}`)
     .dividedBy(new BigNumber(`${numberTwo}`))
@@ -103,7 +103,7 @@ export function divide(
 
 export function floorDivide(
   numberOne: number | string,
-  numberTwo: number | string
+  numberTwo: number | string,
 ): string {
   return new BigNumber(`${numberOne}`)
     .dividedToIntegerBy(new BigNumber(`${numberTwo}`))
@@ -112,7 +112,7 @@ export function floorDivide(
 
 export function mod(
   numberOne: number | string,
-  numberTwo: number | string
+  numberTwo: number | string,
 ): string {
   return new BigNumber(`${numberOne}`)
     .mod(new BigNumber(`${numberTwo}`))
@@ -121,7 +121,7 @@ export function mod(
 
 export function add(
   numberOne: number | string,
-  numberTwo: number | string
+  numberTwo: number | string,
 ): string {
   return new BigNumber(`${numberOne}`)
     .plus(new BigNumber(`${numberTwo}`))
@@ -130,7 +130,7 @@ export function add(
 
 export function subtract(
   numberOne: number | string,
-  numberTwo: number | string
+  numberTwo: number | string,
 ): string {
   return new BigNumber(`${numberOne}`)
     .minus(new BigNumber(`${numberTwo}`))
@@ -139,7 +139,7 @@ export function subtract(
 
 export function convertAmountToRawNumber(
   value: string | number,
-  decimals: number = 18
+  decimals: number = 18,
 ): string {
   return new BigNumber(`${value}`)
     .times(new BigNumber('10').pow(decimals))
@@ -148,7 +148,7 @@ export function convertAmountToRawNumber(
 
 export function convertAmountFromRawNumber(
   value: string | number,
-  decimals: number = 18
+  decimals: number = 18,
 ): string {
   return new BigNumber(`${value}`)
     .dividedBy(new BigNumber('10').pow(decimals))
@@ -158,7 +158,7 @@ export function convertAmountFromRawNumber(
 export function handleSignificantDecimals(
   value: string,
   decimals: number,
-  buffer?: number
+  buffer?: number,
 ): string | null {
   if (
     !new BigNumber(`${decimals}`).isInteger() ||
@@ -186,14 +186,14 @@ export function formatFixedDecimals(value: string, decimals: number): string {
   const _value = convertNumberToString(value)
   const _decimals = convertStringToNumber(decimals)
   const result = new BigNumber(
-    new BigNumber(_value).toFixed(_decimals)
+    new BigNumber(_value).toFixed(_decimals),
   ).toString()
   return result
 }
 
 export function formatInputDecimals(
   inputOne: string,
-  inputTwo: string
+  inputTwo: string,
 ): string {
   const _nativeAmountDecimalPlaces = countDecimalPlaces(inputTwo)
   const decimals =
