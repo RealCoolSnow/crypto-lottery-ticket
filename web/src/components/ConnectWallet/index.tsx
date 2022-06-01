@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 
 const ConnectWallet = () => {
   const { t } = useTranslation()
-  const { easyWeb3, connectState } = useEasyWeb3()
+  const { easyWeb3, connectState, walletInfo } = useEasyWeb3()
   const onConnect = () => {
     easyWeb3.connectWallet()
   }
@@ -20,7 +20,7 @@ const ConnectWallet = () => {
       )}
       {connectState == ConnectState.Connecting && <div>Connecting</div>}
       {connectState == ConnectState.Connected && (
-        <div>{easyWeb3.getAddressShort()}</div>
+        <div>{easyWeb3.getAddressShort(walletInfo.address)}</div>
       )}
     </>
   )

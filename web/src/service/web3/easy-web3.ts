@@ -78,20 +78,19 @@ class EasyWeb3 {
       if (!this.web3) {
         const provider = await this.web3Modal.connect()
         await this.subscribeProvider(provider)
-        await provider.enable()
         this.web3 = new ethers.providers.Web3Provider(provider)
       }
       await this.updateWalletInfo()
       this.connectState = ConnectState.Connected
+      EventBus.getInstance().dispatch<Web3Event>(WEB3_MESSAGE, {
+        type: Web3EventType.Provider_Connect,
+      })
     } catch (error) {
       console.log(TAG, 'connectWallet', error)
       EventBus.getInstance().dispatch<Web3Event>(WEB3_MESSAGE, {
         type: Web3EventType.Provider_Disconnect,
       })
     }
-    EventBus.getInstance().dispatch<Web3Event>(WEB3_MESSAGE, {
-      type: Web3EventType.Provider_Connect,
-    })
   }
 
   /**
@@ -103,10 +102,10 @@ class EasyWeb3 {
     if (!provider.on) {
       return
     }
-    provider.on('close', () => {
-      console.log(TAG, 'close')
-      this.clearAll()
-    })
+    // provider.on('close', () => {
+    //   console.log(TAG, 'close')
+    //   this.clearAll()
+    // })
     provider.on(
       Web3EventType.Provider_AccountsChanged,
       async (accounts: string[]) => {
@@ -168,7 +167,7 @@ class EasyWeb3 {
   }
   /**
    *
-   * @param func (event:Web3Event, data?:any) => {}
+   * @param cb (event:Web3Event, data?:any) => {}
    * @returns Registry
    */
   public registerEvent(cb: Web3Callback): Registry {
@@ -207,14 +206,20 @@ class EasyWeb3 {
   public getWallet(): WalletInfo {
     return this.wallet
   }
-  public getAddressShort(): string {
-    return '0xaaaa...adfa'
-  }
-  public getAddressFull(): string {
-    return this.wallet.address
-  }
   /**
-   *
+   * short address (like 0xa2C...F6f9)
+   * @param addr - wallet address
+   * @returns
+   */
+  public getAddressShort(addr?: string): string {
+    const address = addr || this.wallet.address
+    if (address.length > 10)
+      return `${address.slice(0, 5)}...${address.slice(-4)}`
+    return address
+  }
+  
+  /**
+   * update wallet info
    */
   private async updateWalletInfo() {
     const signer = this.web3.getSigner()
@@ -233,5 +238,5 @@ class EasyWeb3 {
   }
 }
 
-export { EasyWeb3 }
+export { EasyWeb3, DEFAULT_WALLET_INFO }
 export type { Web3Event, Web3Callback }
