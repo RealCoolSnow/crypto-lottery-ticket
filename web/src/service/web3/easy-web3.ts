@@ -3,20 +3,20 @@ import Web3Modal from 'web3modal'
 import { EventBus, Registry } from './helper/event-bus'
 import { getChainData } from './helper/utilities'
 import {
-  ConnectInfo,
-  ProviderMessage,
-  ProviderRpcError,
-  WalletInfo,
+  IConnectInfo,
+  IProviderMessage,
+  IProviderRpcError,
+  IWalletInfo,
   Web3Callback,
   Web3Error,
   Web3EventType,
-  Web3Event,
+  IWeb3Event,
   ConnectState,
 } from './types'
 
 const TAG = 'EasyWeb3'
 
-const DEFAULT_WALLET_INFO: WalletInfo = {
+const DEFAULT_WALLET_INFO: IWalletInfo = {
   signer: '',
   address: '',
   chainId: 1,
@@ -34,7 +34,7 @@ class EasyWeb3 {
   private static instance: EasyWeb3
   private web3Modal: Web3Modal
   private web3: any //Web3Provider
-  private wallet: WalletInfo = DEFAULT_WALLET_INFO
+  private wallet: IWalletInfo = DEFAULT_WALLET_INFO
   private chainId = 1
   private connectState: ConnectState = ConnectState.Disconnected
 
@@ -72,7 +72,7 @@ class EasyWeb3 {
         return
       }
       this.connectState = ConnectState.Connecting
-      EventBus.getInstance().dispatch<Web3Event>(WEB3_MESSAGE, {
+      EventBus.getInstance().dispatch<IWeb3Event>(WEB3_MESSAGE, {
         type: Web3EventType.Connecting,
       })
       if (!this.web3) {
@@ -82,12 +82,12 @@ class EasyWeb3 {
       }
       await this.updateWalletInfo()
       this.connectState = ConnectState.Connected
-      EventBus.getInstance().dispatch<Web3Event>(WEB3_MESSAGE, {
+      EventBus.getInstance().dispatch<IWeb3Event>(WEB3_MESSAGE, {
         type: Web3EventType.Provider_Connect,
       })
     } catch (error) {
       console.log(TAG, 'connectWallet', error)
-      EventBus.getInstance().dispatch<Web3Event>(WEB3_MESSAGE, {
+      EventBus.getInstance().dispatch<IWeb3Event>(WEB3_MESSAGE, {
         type: Web3EventType.Provider_Disconnect,
       })
     }
@@ -112,23 +112,23 @@ class EasyWeb3 {
         console.log(TAG, Web3EventType.Provider_AccountsChanged, accounts)
         if (accounts.length <= 0) {
           this.connectState = ConnectState.Disconnected
-          EventBus.getInstance().dispatch<Web3Event>(WEB3_MESSAGE, {
+          EventBus.getInstance().dispatch<IWeb3Event>(WEB3_MESSAGE, {
             type: Web3EventType.Provider_Disconnect,
           })
         } else {
           await this.updateWalletInfo()
         }
-        EventBus.getInstance().dispatch<Web3Event>(WEB3_MESSAGE, {
+        EventBus.getInstance().dispatch<IWeb3Event>(WEB3_MESSAGE, {
           type: Web3EventType.Provider_AccountsChanged,
           data: accounts,
         })
       },
     )
-    provider.on(Web3EventType.Provider_Connect, async (info: ConnectInfo) => {
+    provider.on(Web3EventType.Provider_Connect, async (info: IConnectInfo) => {
       console.log(TAG, Web3EventType.Provider_Connect, info)
       this.connectState = ConnectState.Connected
       await this.updateWalletInfo()
-      EventBus.getInstance().dispatch<Web3Event>(WEB3_MESSAGE, {
+      EventBus.getInstance().dispatch<IWeb3Event>(WEB3_MESSAGE, {
         type: Web3EventType.Provider_Connect,
         data: info,
       })
@@ -136,10 +136,10 @@ class EasyWeb3 {
 
     provider.on(
       Web3EventType.Provider_Disconnect,
-      (error: ProviderRpcError) => {
+      (error: IProviderRpcError) => {
         console.log(TAG, Web3EventType.Provider_Disconnect, error)
         this.connectState = ConnectState.Disconnected
-        EventBus.getInstance().dispatch<Web3Event>(WEB3_MESSAGE, {
+        EventBus.getInstance().dispatch<IWeb3Event>(WEB3_MESSAGE, {
           type: Web3EventType.Provider_Disconnect,
           data: error,
         })
@@ -151,15 +151,15 @@ class EasyWeb3 {
       async (chainId: string) => {
         console.log(TAG, Web3EventType.Provider_ChainChanged, chainId)
         await this.updateWalletInfo()
-        EventBus.getInstance().dispatch<Web3Event>(WEB3_MESSAGE, {
+        EventBus.getInstance().dispatch<IWeb3Event>(WEB3_MESSAGE, {
           type: Web3EventType.Provider_ChainChanged,
           data: chainId,
         })
       },
     )
-    provider.on(Web3EventType.Provider_Message, (message: ProviderMessage) => {
+    provider.on(Web3EventType.Provider_Message, (message: IProviderMessage) => {
       console.log(TAG, Web3EventType.Provider_Message, message)
-      EventBus.getInstance().dispatch<Web3Event>(WEB3_MESSAGE, {
+      EventBus.getInstance().dispatch<IWeb3Event>(WEB3_MESSAGE, {
         type: Web3EventType.Provider_Message,
         data: message,
       })
@@ -203,7 +203,7 @@ class EasyWeb3 {
    *
    * @returns
    */
-  public getWallet(): WalletInfo {
+  public getWallet(): IWalletInfo {
     return this.wallet
   }
   /**
@@ -217,7 +217,7 @@ class EasyWeb3 {
       return `${address.slice(0, 5)}...${address.slice(-4)}`
     return address
   }
-  
+
   /**
    * update wallet info
    */
@@ -239,4 +239,3 @@ class EasyWeb3 {
 }
 
 export { EasyWeb3, DEFAULT_WALLET_INFO }
-export type { Web3Event, Web3Callback }

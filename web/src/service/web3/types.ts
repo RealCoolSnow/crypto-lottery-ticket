@@ -1,4 +1,4 @@
-export interface WalletInfo {
+export interface IWalletInfo {
   signer: any
   address: string
   chainId: number
@@ -6,17 +6,17 @@ export interface WalletInfo {
   balance: string //eth balance
 }
 // --- event ---
-export interface ConnectInfo {
+export interface IConnectInfo {
   chainId: string
 }
 
-export interface ProviderRpcError extends Error {
+export interface IProviderRpcError extends Error {
   message: string
   code: number
   data?: unknown
 }
 
-export interface ProviderMessage {
+export interface IProviderMessage {
   type: string
   data: unknown
 }
@@ -35,12 +35,12 @@ export enum Web3EventType {
   Connecting = 'connecting',
 }
 
-export interface Web3Event {
+export interface IWeb3Event {
   type: Web3EventType
   data?: any
 }
 
-export type Web3Callback = (e: Web3Event) => void
+export type Web3Callback = (e: IWeb3Event) => void
 
 export enum ConnectState {
   Connecting,
