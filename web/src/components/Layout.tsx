@@ -146,7 +146,9 @@ const Header = () => {
         <Logo />
         <span className="ml-2 hidden md:block">{t('app_name')}</span>
       </div>
-      <ConnectWallet />
+      <div className="ml-auto">
+        <ConnectWallet />
+      </div>
     </div>
   )
 }

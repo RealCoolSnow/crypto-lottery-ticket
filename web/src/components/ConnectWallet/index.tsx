@@ -1,4 +1,5 @@
 import { ConnectState, useEasyWeb3 } from '@/service/web3'
+import { CircularProgress } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 const ConnectWallet = () => {
@@ -18,7 +19,9 @@ const ConnectWallet = () => {
           <span className="hidden sm:block sm:ml-1">{t('wallet')}</span>
         </button>
       )}
-      {connectState == ConnectState.Connecting && <div>Connecting</div>}
+      {connectState == ConnectState.Connecting && (
+        <CircularProgress color="secondary" size="1.2rem" />
+      )}
       {connectState == ConnectState.Connected && (
         <div>{easyWeb3.getAddressShort(walletInfo.address)}</div>
       )}
