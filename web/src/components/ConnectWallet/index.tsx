@@ -1,8 +1,11 @@
+import MyWeb3 from '@/service/MyWeb3'
 import { useTranslation } from 'react-i18next'
 
 const ConnectWallet = () => {
   const { t } = useTranslation()
-  const onConnect = () => {}
+  const onConnect = () => {
+    MyWeb3.getInstance().connectWallet()
+  }
   return (
     <>
       <button
