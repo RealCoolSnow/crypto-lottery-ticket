@@ -78,7 +78,7 @@ class EasyWeb3 {
       if (!this.web3) {
         const provider = await this.web3Modal.connect()
         await this.subscribeProvider(provider)
-        this.web3 = new ethers.providers.Web3Provider(provider)
+        this.web3 = new ethers.providers.Web3Provider(provider, 'any')
       }
       await this.updateWalletInfo()
       this.connectState = ConnectState.Connected
@@ -217,7 +217,16 @@ class EasyWeb3 {
       return `${address.slice(0, 5)}...${address.slice(-4)}`
     return address
   }
-
+  /**
+   * short balance (eg. convert 1.190713439868281787 to 1.1907)
+   * @param _balance
+   * @returns
+   */
+  public getBalanceShort(_balance: string): string {
+    const balance = _balance || this.wallet.balance
+    const n = Number(balance)
+    return n > 0 ? n.toFixed(4) : '0'
+  }
   /**
    * update wallet info
    */

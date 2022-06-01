@@ -23,7 +23,14 @@ const ConnectWallet = () => {
         <CircularProgress color="secondary" size="1.2rem" />
       )}
       {connectState == ConnectState.Connected && (
-        <div>{easyWeb3.getAddressShort(walletInfo.address)}</div>
+        <div className="flex flex-col items-center">
+          <span className="text-primary">
+            {easyWeb3.getAddressShort(walletInfo.address)}
+          </span>
+          <span className="text-sm">
+            {easyWeb3.getBalanceShort(walletInfo.balance)}&nbsp;ETH
+          </span>
+        </div>
       )}
     </>
   )

@@ -37,7 +37,7 @@ export enum Web3EventType {
 
 export interface IWeb3Event {
   type: Web3EventType
-  data?: any
+  data?: IProviderRpcError | IConnectInfo | string | IProviderMessage | string[]
 }
 
 export type Web3Callback = (e: IWeb3Event) => void
