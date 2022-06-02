@@ -2,8 +2,6 @@ import i18n from '@/locale'
 import { Dispatch, RootState } from '@/store'
 import InfoIcon from '@mui/icons-material/Info'
 import MenuIcon from '@mui/icons-material/Menu'
-import SendIcon from '@mui/icons-material/Send'
-import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
 import HomeIcon from '@mui/icons-material/Home'
 import {
   MenuItem,
@@ -91,14 +89,6 @@ const Header = () => {
       link: '/',
     },
     {
-      title: 'Send',
-      link: '/send',
-    },
-    {
-      title: 'Contact',
-      link: '/',
-    },
-    {
       title: 'About',
       link: '/about',
     },
@@ -117,9 +107,7 @@ const Header = () => {
               <ListItemButton>
                 <ListItemIcon>
                   {index == 0 ? <HomeIcon /> : <span></span>}
-                  {index == 1 ? <SendIcon /> : <span></span>}
-                  {index == 2 ? <AlternateEmailIcon /> : <span></span>}
-                  {index == 3 ? <InfoIcon /> : <span></span>}
+                  {index == 1 ? <InfoIcon /> : <span></span>}
                 </ListItemIcon>
                 <ListItemText primary={item.title} />
               </ListItemButton>
@@ -156,7 +144,7 @@ const Header = () => {
 const Footer = () => {
   return (
     <div className="w-full flex items-center justify-center px-4 relative">
-      <span className="text-gray-500 text-sm">Copyright (c) CRP Team</span>
+      <span className="text-gray-500 text-sm">Copyright (c) CoolSnow</span>
       <div className="absolute right-4">
         <LanguageSwitch />
       </div>
