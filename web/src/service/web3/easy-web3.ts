@@ -33,7 +33,7 @@ const WEB3_MESSAGE = 'web3-message'
 class EasyWeb3 {
   private static instance: EasyWeb3
   private web3Modal: Web3Modal
-  private web3: any //Web3Provider
+  private web3Provider: any //Web3Provider
   private walletInfo: IWalletInfo = DEFAULT_WALLET_INFO
   private chainId = 1
   private connectState: ConnectState = ConnectState.Disconnected
@@ -75,10 +75,10 @@ class EasyWeb3 {
       EventBus.getInstance().dispatch<IWeb3Event>(WEB3_MESSAGE, {
         type: Web3EventType.Connecting,
       })
-      if (!this.web3) {
-        const provider = await this.web3Modal.connect()
-        await this.subscribeProvider(provider)
-        this.web3 = new ethers.providers.Web3Provider(provider, 'any')
+      if (!this.web3Provider) {
+        const instance = await this.web3Modal.connect()
+        await this.subscribeProvider(instance)
+        this.web3Provider = new ethers.providers.Web3Provider(instance, 'any')
       }
       await this.updateWalletInfo()
       this.connectState = ConnectState.Connected
@@ -244,19 +244,27 @@ class EasyWeb3 {
    * update wallet info
    */
   private async updateWalletInfo() {
-    const signer = this.web3.getSigner()
+    const signer = this.web3Provider.getSigner()
     this.walletInfo.signer = signer
     this.walletInfo.address = await signer.getAddress()
     this.walletInfo.chainId = await signer.getChainId()
-    this.walletInfo.network = await this.web3.getNetwork()
+    this.walletInfo.network = await this.web3Provider.getNetwork()
     this.walletInfo.balance = await this.getBalance()
     console.log(TAG, 'updateWalletInfo', this.walletInfo)
   }
   /**
-   * clear
+   * disconnect
    */
-  private async clearAll() {
-    this.web3Modal.clearCachedProvider()
+  public disconnect() {
+    if (this.web3Provider) {
+      this.web3Modal.clearCachedProvider()
+      this.connectState = ConnectState.Disconnected
+      EventBus.getInstance().dispatch<IWeb3Event>(WEB3_MESSAGE, {
+        type: Web3EventType.Provider_Disconnect,
+        data: 'user disconnect',
+      })
+      this.web3Provider = null
+    }
   }
 }
 

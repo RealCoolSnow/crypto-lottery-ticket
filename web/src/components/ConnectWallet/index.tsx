@@ -21,6 +21,9 @@ const ConnectWallet = () => {
   const onConnect = () => {
     easyWeb3.connectWallet()
   }
+  const onDisconnect = () => {
+    easyWeb3.disconnect()
+  }
   return (
     <>
       {connectState == ConnectState.Disconnected && (
@@ -36,7 +39,7 @@ const ConnectWallet = () => {
         <CircularProgress color="secondary" size="1.2rem" />
       )}
       {connectState == ConnectState.Connected && (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center btn" onClick={onDisconnect}>
           <span className="text-primary">
             {easyWeb3.getAddressShort(walletInfo.address)}
           </span>
