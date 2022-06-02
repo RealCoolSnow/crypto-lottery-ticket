@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import './index.css'
 import { useTranslation } from 'react-i18next'
 import { ConnectState, useEasyWeb3 } from '@/service/web3'
-import { ethers } from 'ethers'
+import { ethers, Wallet } from 'ethers'
 import { DAI_CONTRACT } from '@/service/web3/constants/contract-test'
 
 const toAddress = '0x75dbb972072fEB3CAd41f3d7b634b4305A208375'
@@ -76,6 +76,14 @@ const Index = () => {
           const ret = await dai.transfer(toAddress, 99)
           alert('transfer: ' + JSON.stringify(ret))
         }
+      },
+    },
+    {
+      title: 'test-ethers',
+      func: async () => {
+        const signer = easyWeb3.getSigner()
+        const ret = await signer.getBalance()
+        console.log(ret)
       },
     },
   ]
