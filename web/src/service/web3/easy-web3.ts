@@ -34,7 +34,7 @@ class EasyWeb3 {
   private static instance: EasyWeb3
   private web3Modal: Web3Modal
   private web3: any //Web3Provider
-  private wallet: IWalletInfo = DEFAULT_WALLET_INFO
+  private walletInfo: IWalletInfo = DEFAULT_WALLET_INFO
   private chainId = 1
   private connectState: ConnectState = ConnectState.Disconnected
 
@@ -85,10 +85,12 @@ class EasyWeb3 {
       EventBus.getInstance().dispatch<IWeb3Event>(WEB3_MESSAGE, {
         type: Web3EventType.Provider_Connect,
       })
-    } catch (error) {
+    } catch (error: any) {
       console.log(TAG, 'connectWallet', error)
+      this.connectState = ConnectState.Disconnected
       EventBus.getInstance().dispatch<IWeb3Event>(WEB3_MESSAGE, {
         type: Web3EventType.Provider_Disconnect,
+        data: error.message || JSON.stringify(error),
       })
     }
   }
@@ -185,8 +187,8 @@ class EasyWeb3 {
    * @returns ETH balance
    */
   public async getBalance() {
-    if (this.wallet.signer) {
-      const balance = await this.wallet.signer.getBalance()
+    if (this.walletInfo.signer) {
+      const balance = await this.walletInfo.signer.getBalance()
       return ethers.utils.formatEther(balance)
     } else {
       throw new Error(Web3Error.WalletNotConnected)
@@ -203,8 +205,8 @@ class EasyWeb3 {
    *
    * @returns
    */
-  public getWallet(): IWalletInfo {
-    return this.wallet
+  public getWalletInfo(): IWalletInfo {
+    return this.walletInfo
   }
   /**
    * short address (like 0xa2C...F6f9)
@@ -212,7 +214,7 @@ class EasyWeb3 {
    * @returns
    */
   public getAddressShort(addr?: string): string {
-    const address = addr || this.wallet.address
+    const address = addr || this.walletInfo.address
     if (address.length > 10)
       return `${address.slice(0, 5)}...${address.slice(-4)}`
     return address
@@ -223,21 +225,32 @@ class EasyWeb3 {
    * @returns
    */
   public getBalanceShort(_balance: string): string {
-    const balance = _balance || this.wallet.balance
+    const balance = _balance || this.walletInfo.balance
     const n = Number(balance)
     return n > 0 ? n.toFixed(4) : '0'
+  }
+  /**
+   *
+   */
+  public getSigner() {
+    if (this.isConnected()) return this.walletInfo.signer
+    return false
+  }
+
+  public isConnected() {
+    return this.connectState == ConnectState.Connected
   }
   /**
    * update wallet info
    */
   private async updateWalletInfo() {
     const signer = this.web3.getSigner()
-    this.wallet.signer = signer
-    this.wallet.address = await signer.getAddress()
-    this.wallet.chainId = await signer.getChainId()
-    this.wallet.network = await this.web3.getNetwork()
-    this.wallet.balance = await this.getBalance()
-    console.log(TAG, 'updateWalletInfo', this.wallet)
+    this.walletInfo.signer = signer
+    this.walletInfo.address = await signer.getAddress()
+    this.walletInfo.chainId = await signer.getChainId()
+    this.walletInfo.network = await this.web3.getNetwork()
+    this.walletInfo.balance = await this.getBalance()
+    console.log(TAG, 'updateWalletInfo', this.walletInfo)
   }
   /**
    * clear

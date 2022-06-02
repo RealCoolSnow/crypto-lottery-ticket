@@ -1,10 +1,23 @@
-import { ConnectState, useEasyWeb3 } from '@/service/web3'
+import {
+  ConnectState,
+  IWeb3Event,
+  useEasyWeb3,
+  Web3Callback,
+  Web3EventType,
+} from '@/service/web3'
 import { CircularProgress } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 const ConnectWallet = () => {
   const { t } = useTranslation()
-  const { easyWeb3, connectState, walletInfo } = useEasyWeb3()
+  const web3callback: Web3Callback = (e: IWeb3Event) => {
+    switch (e.type) {
+      case Web3EventType.Provider_Disconnect:
+        alert(typeof e.data == 'string' ? e.data : JSON.stringify(e.data))
+        break
+    }
+  }
+  const { easyWeb3, connectState, walletInfo } = useEasyWeb3(web3callback)
   const onConnect = () => {
     easyWeb3.connectWallet()
   }

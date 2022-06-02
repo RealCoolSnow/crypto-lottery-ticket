@@ -15,7 +15,7 @@ export const useEasyWeb3 = (cb?: Web3Callback) => {
   let registry: Registry
   const web3Callback: Web3Callback = (e: IWeb3Event) => {
     setConnectState(easyWeb3.getConnectState())
-    setWalletInfo({ ...easyWeb3.getWallet() })
+    setWalletInfo({ ...easyWeb3.getWalletInfo() })
     cb && cb(e)
   }
   useEffect(() => {
