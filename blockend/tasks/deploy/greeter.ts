@@ -2,8 +2,7 @@ import type { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { task } from "hardhat/config";
 import type { TaskArguments } from "hardhat/types";
 
-import type { Greeter } from "../../src/types/Greeter";
-import type { Greeter__factory } from "../../src/types/factories/Greeter__factory";
+import { Greeter, Greeter__factory } from "../../src/types";
 
 task("deploy:Greeter")
   .addParam("greeting", "Say hello, be nice")
