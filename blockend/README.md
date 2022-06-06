@@ -1,46 +1,111 @@
-# Advanced Sample Hardhat Project
+# Solidity Template
 
-This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
+My favorite setup for writing Solidity smart contracts.
 
-The project comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts. It also comes with a variety of other tools, preconfigured to work with the project code.
+- [Hardhat](https://github.com/nomiclabs/hardhat): compile and run the smart contracts on a local development network
+- [TypeChain](https://github.com/ethereum-ts/TypeChain): generate TypeScript types for smart contracts
+- [Ethers](https://github.com/ethers-io/ethers.js/): renowned Ethereum library and wallet implementation
+- [Waffle](https://github.com/EthWorks/Waffle): tooling for writing comprehensive smart contract tests
+- [Solhint](https://github.com/protofire/solhint): linter
+- [Solcover](https://github.com/sc-forks/solidity-coverage): code coverage
+- [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter
 
-Try running some of the following tasks:
+This is a GitHub template, which means you can reuse it as many times as you want. You can do that by clicking the "Use this
+template" button at the top of the page.
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-npx hardhat help
-REPORT_GAS=true npx hardhat test
-npx hardhat coverage
-npx hardhat run scripts/deploy.ts
-TS_NODE_FILES=true npx ts-node scripts/deploy.ts
-npx eslint '**/*.{js,ts}'
-npx eslint '**/*.{js,ts}' --fix
-npx prettier '**/*.{json,sol,md}' --check
-npx prettier '**/*.{json,sol,md}' --write
-npx solhint 'contracts/**/*.sol'
-npx solhint 'contracts/**/*.sol' --fix
+## Usage
+
+### Pre Requisites
+
+Before running any command, you need to create a `.env` file and set a BIP-39 compatible mnemonic as an environment
+variable. Follow the example in `.env.example`. If you don't already have a mnemonic, use this [website](https://iancoleman.io/bip39/) to generate one.
+
+Then, proceed with installing dependencies:
+
+```sh
+$ yarn install
 ```
 
-# Etherscan verification
+### Compile
 
-To try out Etherscan verification, you first need to deploy a contract to an Ethereum network that's supported by Etherscan, such as Ropsten.
+Compile the smart contracts with Hardhat:
 
-In this project, copy the .env.example file to a file named .env, and then edit it to fill in the details. Enter your Etherscan API key, your Ropsten node URL (eg from Alchemy), and the private key of the account which will send the deployment transaction. With a valid .env file in place, first deploy your contract:
-
-```shell
-hardhat run --network ropsten scripts/deploy.ts
+```sh
+$ yarn compile
 ```
 
-Then, copy the deployment address and paste it in to replace `DEPLOYED_CONTRACT_ADDRESS` in this command:
+### TypeChain
 
-```shell
-npx hardhat verify --network ropsten DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
+Compile the smart contracts and generate TypeChain artifacts:
+
+```sh
+$ yarn typechain
 ```
 
-# Performance optimizations
+### Lint Solidity
 
-For faster runs of your tests and scripts, consider skipping ts-node's type checking by setting the environment variable `TS_NODE_TRANSPILE_ONLY` to `1` in hardhat's environment. For more details see [the documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
+Lint the Solidity code:
+
+```sh
+$ yarn lint:sol
+```
+
+### Lint TypeScript
+
+Lint the TypeScript code:
+
+```sh
+$ yarn lint:ts
+```
+
+### Test
+
+Run the Mocha tests:
+
+```sh
+$ yarn test
+```
+
+### Coverage
+
+Generate the code coverage report:
+
+```sh
+$ yarn coverage
+```
+
+### Report Gas
+
+See the gas usage per unit test and average gas per method call:
+
+```sh
+$ REPORT_GAS=true yarn test
+```
+
+### Clean
+
+Delete the smart contract artifacts, the coverage reports and the Hardhat cache:
+
+```sh
+$ yarn clean
+```
+
+### Deploy
+
+Deploy the contracts to Hardhat Network:
+
+```sh
+$ yarn deploy --greeting "Bonjour, le monde!"
+```
+
+## Syntax Highlighting
+
+If you use VSCode, you can enjoy syntax highlighting for your Solidity code via the [hardhat-vscode](https://github.com/NomicFoundation/hardhat-vscode) extension.
+
+## Caveats
+
+### Ethers and Waffle
+
+If you can't get the [Waffle matchers](https://ethereum-waffle.readthedocs.io/en/latest/matchers.html) to work, try to
+make your `ethers` package version match the version used by the `@ethereum-waffle/chai` package. Seem
+[#111](https://github.com/paulrberg/solidity-template/issues/111) for more details.
