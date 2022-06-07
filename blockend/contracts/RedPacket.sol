@@ -4,9 +4,12 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "hardhat/console.sol";
 
 interface IRedPacket {
     function makePacket() external payable returns (uint256);
+
+    event PacketMaked(address user, uint256 hash);
 }
 
 struct Packet {
@@ -19,12 +22,13 @@ contract RedPacket is Ownable, IRedPacket {
     Counters.Counter private _packetIds;
     mapping(address => mapping(uint256 => Packet)) public packetMap;
 
-    function makePacket() external payable returns (uint256) {
+    function makePacket() external payable returns (uint256 packetId) {
         require(msg.value > 0, "Amount should be greater than 0");
-        uint256 packetId = pickRandomPacketId();
+        packetId = pickRandomPacketId();
         packetMap[msg.sender][packetId] = Packet(msg.value, "");
         _packetIds.increment();
-        return packetId;
+        console.log("makePacket", packetId);
+        emit PacketMaked(msg.sender, packetId);
     }
 
     function pickRandomPacketId() private view returns (uint256) {

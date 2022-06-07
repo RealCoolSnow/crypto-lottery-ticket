@@ -9,6 +9,9 @@ import { Signers } from "./types";
 
 const formatETH = (wei: BigNumberish) => ethers.utils.formatEther(wei);
 
+const revertReason = (reason: string) =>
+  `VM Exception while processing transaction: reverted with reason string '${reason}'`;
+
 describe("RedPacket tests", function () {
   const signers = {} as Signers;
   let contract: Contract;
@@ -41,18 +44,27 @@ describe("RedPacket tests", function () {
   });
 
   it("genPacket(0.1) should be true", async function () {
-    const ret = await contract.connect(signers.user).makePacket({
+    const tx = await contract.connect(signers.user).makePacket({
       value: ethers.utils.parseEther("0.1"),
     });
-    console.log("ret-1", ret);
+    const result = await tx.wait();
+    console.log("ret-1", result);
     // expect(ret).to.equal(1);
   });
 
   it("genPacket(0) should be reverted", async function () {
+    // contract
+    //   .connect(signers.admin)
+    //   .makePacket({
+    //     value: ethers.utils.parseEther("0"),
+    //   })
+    //   .catch((error: any) => {
+    //     console.log(error);
+    //   });
     await expect(
-      await contract.connect(signers.user).makePacket({
+      await contract.connect(signers.admin).makePacket({
         value: ethers.utils.parseEther("0"),
       }),
-    ).to.be.revertedWith("Amount should be greater than 0");
+    ).to.be.revertedWith(revertReason("Amount should be greater than 0"));
   });
 });
