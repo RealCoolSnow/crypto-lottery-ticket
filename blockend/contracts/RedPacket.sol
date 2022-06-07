@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "hardhat/console.sol";
 
 interface IRedPacket {
-    function makePacket() external payable returns (uint256);
+    function makePacket(string memory code) external payable returns (uint256);
 
     event PacketMaked(address user, uint256 hash);
 }
@@ -22,13 +22,13 @@ contract RedPacket is Ownable, IRedPacket {
     Counters.Counter private _packetIds;
     mapping(address => mapping(uint256 => Packet)) public packetMap;
 
-    function makePacket() external payable returns (uint256 packetId) {
+    function makePacket(string memory code) external payable returns (uint256 packetId) {
         require(msg.value > 0, "Amount should be greater than 0");
         packetId = pickRandomPacketId();
-        packetMap[msg.sender][packetId] = Packet(msg.value, "");
+        packetMap[msg.sender][packetId] = Packet(msg.value, code);
         _packetIds.increment();
-        console.log("makePacket", packetId);
         emit PacketMaked(msg.sender, packetId);
+        // console.log("makePacket", packetId, code);
     }
 
     function pickRandomPacketId() private view returns (uint256) {

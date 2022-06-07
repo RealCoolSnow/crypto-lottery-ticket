@@ -9,9 +9,6 @@ import { Signers } from "./types";
 
 const formatETH = (wei: BigNumberish) => ethers.utils.formatEther(wei);
 
-const revertReason = (reason: string) =>
-  `VM Exception while processing transaction: reverted with reason string '${reason}'`;
-
 describe("RedPacket tests", function () {
   const signers = {} as Signers;
   let contract: Contract;
@@ -43,28 +40,18 @@ describe("RedPacket tests", function () {
     expect(await contract.connect(signers.user).owner()).to.eql(signers.admin.address);
   });
 
-  it("genPacket(0.1) should be true", async function () {
-    const tx = await contract.connect(signers.user).makePacket({
-      value: ethers.utils.parseEther("0.1"),
-    });
-    const result = await tx.wait();
-    console.log("ret-1", result);
-    // expect(ret).to.equal(1);
+  it("genPacket(0.1) should be ok", async function () {
+    const overrides = { value: ethers.utils.parseEther("0.1") };
+    // const tx = await contract.connect(signers.user).makePacket(overrides);
+    // const result = await tx.wait();
+    // console.log("tx", result);
+    await expect(contract.connect(signers.user).makePacket("123", overrides)).to.emit(contract, "PacketMaked");
   });
 
   it("genPacket(0) should be reverted", async function () {
-    // contract
-    //   .connect(signers.admin)
-    //   .makePacket({
-    //     value: ethers.utils.parseEther("0"),
-    //   })
-    //   .catch((error: any) => {
-    //     console.log(error);
-    //   });
-    await expect(
-      await contract.connect(signers.admin).makePacket({
-        value: ethers.utils.parseEther("0"),
-      }),
-    ).to.be.revertedWith(revertReason("Amount should be greater than 0"));
+    const overrides = { value: ethers.utils.parseEther("0") };
+    await expect(contract.connect(signers.user).makePacket("123", overrides)).to.be.revertedWith(
+      "Amount should be greater than 0",
+    );
   });
 });
