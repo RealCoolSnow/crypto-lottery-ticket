@@ -30,6 +30,7 @@
     "prettier:check": "prettier --check --config ./.prettierrc.yaml \"**/*.{js,json,md,sol,ts,yaml,yml}\"",
     "postpublish": "pinst --enable",
     "test": "hardhat test test/RedPacket.ts",
+    "test-token": "hardhat test test/token/RedPacketToken.ts",
     "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain"
   },
   "devDependencies": {
