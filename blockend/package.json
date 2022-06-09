@@ -30,6 +30,7 @@
     "prettier:check": "prettier --check --config ./.prettierrc.yaml \"**/*.{js,json,md,sol,ts,yaml,yml}\"",
     "postpublish": "pinst --enable",
     "test": "hardhat test test/RedPacket.ts",
+    "test-pet": "hardhat test test/token/SuchPetA.ts",
     "test-token": "hardhat test test/token/RedPacketToken.ts",
     "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain"
   },
@@ -61,6 +62,7 @@
     "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "dotenv": "^16.0.1",
+    "erc721a": "^4.0.0",
     "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.5.0",
     "ethereum-waffle": "^3.4.4",

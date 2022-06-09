@@ -6071,6 +6071,7 @@ __metadata:
     cross-env: ^7.0.3
     cz-conventional-changelog: ^3.3.0
     dotenv: ^16.0.1
+    erc721a: ^4.0.0
     eslint: ^8.17.0
     eslint-config-prettier: ^8.5.0
     ethereum-waffle: ^3.4.4
@@ -6725,6 +6726,13 @@ __metadata:
   version: 2.2.1
   resolution: "env-paths@npm:2.2.1"
   checksum: 65b5df55a8bab92229ab2b40dad3b387fad24613263d103a97f91c9fe43ceb21965cd3392b1ccb5d77088021e525c4e0481adb309625d0cb94ade1d1fb8dc17e
+  languageName: node
+  linkType: hard
+
+"erc721a@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "erc721a@npm:4.0.0"
+  checksum: 160599780bafd94929535ba897e93b881c7382cd9b6111030827e374ca9303b018146b3c77a51cac0c3e21fed016b0e355f14a9f798ee016f4e22ce549b582b7
   languageName: node
   linkType: hard
 
