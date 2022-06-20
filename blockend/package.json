@@ -20,7 +20,7 @@
     "commit": "git-cz",
     "compile": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat compile",
     "coverage": "yarn typechain && hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"test/**/*.ts\" && yarn typechain",
-    "deploy": "hardhat deploy:Greeter",
+    "deploy": "hardhat deploy:Lottery",
     "postinstall": "husky install",
     "lint": "yarn lint:sol && yarn lint:ts && yarn prettier:check",
     "lint:sol": "solhint --config ./.solhint.json --max-warnings 0 \"contracts/**/*.sol\"",
@@ -30,6 +30,7 @@
     "prettier:check": "prettier --check --config ./.prettierrc.yaml \"**/*.{js,json,md,sol,ts,yaml,yml}\"",
     "postpublish": "pinst --enable",
     "test": "hardhat test",
+    "test-lottery": "hardhat test test/lottery.ts",
     "test-token": "hardhat test test/token/RedPacketToken.ts",
     "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain"
   },
