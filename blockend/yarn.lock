@@ -6040,9 +6040,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"crypto-red-packet@workspace:.":
+"crypto-lottery-ticket@workspace:.":
   version: 0.0.0-use.local
-  resolution: "crypto-red-packet@workspace:."
+  resolution: "crypto-lottery-ticket@workspace:."
   dependencies:
     "@commitlint/cli": ^17.0.2
     "@commitlint/config-conventional": ^17.0.2

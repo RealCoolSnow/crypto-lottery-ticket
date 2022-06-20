@@ -1,5 +1,5 @@
 {
-  "name": "crypto-red-packet",
+  "name": "crypto-lottery-ticket",
   "version": "0.0.1",
   "private": true,
   "description": "",
@@ -29,8 +29,7 @@
     "prettier": "prettier --config ./.prettierrc.yaml --write \"**/*.{js,json,md,sol,ts,yaml,yml}\"",
     "prettier:check": "prettier --check --config ./.prettierrc.yaml \"**/*.{js,json,md,sol,ts,yaml,yml}\"",
     "postpublish": "pinst --enable",
-    "test": "hardhat test test/RedPacket.ts",
-    "test-pet": "hardhat test test/token/SuchPetA.ts",
+    "test": "hardhat test",
     "test-token": "hardhat test test/token/RedPacketToken.ts",
     "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain"
   },

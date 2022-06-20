@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ethers, upgrades } from "hardhat";
 
-import { Signers } from "../types";
+import { Signers } from "../util/types";
 
 describe("RedPacketToken Test", function () {
   let RedPacketToken: any;
