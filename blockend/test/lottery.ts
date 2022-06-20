@@ -26,6 +26,19 @@ describe("Lottery test", function () {
 
   it("buy ticket", async function () {
     const overrides = { value: ethers.utils.parseEther(ticketPrice) };
-    await expect(this.lottery.connect(this.signers.user).buyTicket( overrides)).to.emit(this.lottery, "TicketNew");
+    await expect(this.lottery.connect(this.signers.user).buyTicket(overrides))
+      .to.emit(this.lottery, "TicketBought")
+      .withArgs(this.signers.user.address, overrides.value);
+  });
+
+  it("open lucky", async function () {
+    await expect(this.lottery.connect(this.signers.user).openLucky()).to.be.revertedWith(
+      "Ownable: caller is not the owner",
+    );
+    await expect(this.lottery.connect(this.signers.admin).openLucky()).to.emit(this.lottery, "LuckyOpened");
+  });
+
+  it("end", async function () {
+    expect(await this.lottery.connect(this.signers.user).getLuckyCount()).equal(1);
   });
 });

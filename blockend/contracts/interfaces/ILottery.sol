@@ -8,6 +8,19 @@ interface ILottery {
     /// @notice buy one ticket, 0.001ETH
     function buyTicket() external payable;
 
+    /// @notice open lucky
+    function openLucky() external returns (bool);
+
+    /// @notice get total lucky count
+    function getLuckyCount() external returns (uint256);
+
+    /// @notice get total amount in pool
+    function getTotalAmount() external returns (uint256);
+
+    /// ---event---
     /// @notice event emitted when buy one ticket
-    event TicketNew(address indexed owner, uint256 ticketAddress);
+    event TicketBought(address indexed owner, uint256 totalAmountInPool);
+
+    /// @notice event emitted where lucky time executed
+    event LuckyOpened(uint8 luckyNum, uint256 perAmount, address[] luckyUsers);
 }
