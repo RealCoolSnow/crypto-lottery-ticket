@@ -10,8 +10,8 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract Lottery is ILottery, Ownable {
     using Counters for Counters.Counter;
     uint256 private immutable ticketPrice;
-    uint256 private totalAmount;
     Counters.Counter private luckyCounter;
+    address[] private players;
 
     constructor(uint256 _ticketPrice) {
         require(_ticketPrice > 0, "ticket price must be larger than 0");
@@ -20,15 +20,20 @@ contract Lottery is ILottery, Ownable {
 
     function buyTicket() external payable {
         require(msg.value == ticketPrice, "ticket price is wrong");
-        totalAmount += msg.value;
-        emit TicketBought(msg.sender, totalAmount);
+        players.push(msg.sender);
+        emit TicketBought(msg.sender, 1);
     }
 
     function openLucky() external onlyOwner returns (bool) {
-        require(totalAmount > 0, "total amount must be larger than 0");
+        require(address(this).balance > 0, "total amount must be larger than 0");
+        require(players.length > 0, "no player");
+        uint256 index = random() % players.length;
+        address luckUser = players[index];
+        uint256 amount = address(this).balance;
+        payable(luckUser).transfer(amount);
+        players = new address[](0);
         luckyCounter.increment();
-        address[] memory luckyUsers;
-        emit LuckyOpened(0, 0, luckyUsers);
+        emit LuckyOpened(luckUser, amount);
         return true;
     }
 
@@ -36,8 +41,8 @@ contract Lottery is ILottery, Ownable {
         return luckyCounter.current();
     }
 
-    function getTotalAmount() external view returns (uint256) {
-        return totalAmount;
+    function random() private view returns (uint256) {
+        return uint256(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players)));
     }
 
     function version() external pure returns (string memory) {

@@ -28,7 +28,9 @@ describe("Lottery test", function () {
     const overrides = { value: ethers.utils.parseEther(ticketPrice) };
     await expect(this.lottery.connect(this.signers.user).buyTicket(overrides))
       .to.emit(this.lottery, "TicketBought")
-      .withArgs(this.signers.user.address, overrides.value);
+      .withArgs(this.signers.user.address, 1);
+
+    expect(await ethers.provider.getBalance(this.lottery.address)).to.be.equal(overrides.value);
   });
 
   it("open lucky", async function () {
